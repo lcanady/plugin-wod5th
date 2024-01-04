@@ -75,7 +75,9 @@ export const setStat = async (
         throw new Error("Invalid specialty.");
       }
 
-      if (specObj && specObj.values && !specObj.values.includes(value)) {
+      if (
+        specObj && specObj.values && !specObj.values.includes(value) && value
+      ) {
         throw new Error("Invalid specialty value.");
       }
 
@@ -84,6 +86,7 @@ export const setStat = async (
       }
     }
   }
+
   //  convert value if needed.
   if (!isNaN(+value)) value = +value;
 

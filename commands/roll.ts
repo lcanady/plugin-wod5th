@@ -1,6 +1,7 @@
-import { addCmd, moniker, Obj, roll, send } from "../deps.ts";
+import { addCmd, moniker, Obj, send } from "../deps.ts";
 import { getStat } from "../lib/getStats.ts";
 import { statObj } from "../lib/statObj.ts";
+import { roll } from "../lib/roll.ts";
 
 export default () => {
   addCmd({

@@ -22,7 +22,7 @@ export default () => {
       // handle target.
       if (tar) {
         const targetResult = await target(en.dbobj, tar);
-        if (targetResult !== false) {
+        if (targetResult) {
           tarObj = await Obj.get(targetResult?.id);
         }
       } else {

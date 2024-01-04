@@ -1,8 +1,5 @@
-export * from "https://raw.githubusercontent.com/UrsaMU/ursamu/main/mod.ts";
-import {
-  IDBOBJ,
-  Obj,
-} from "https://raw.githubusercontent.com/UrsaMU/ursamu/main/mod.ts";
+export * from "../ursamu/mod.ts";
+import { IDBOBJ, Obj } from "../ursamu/mod.ts";
 
 import { attributes } from "./data/attributes.ts";
 import { backgrounds } from "./data/backgrounds.ts";
@@ -65,4 +62,15 @@ export interface IMStatEntry {
   temp?: any;
   type?: string;
   category?: string;
+}
+
+export interface INote {
+  title: string;
+  text: string;
+  date: number;
+  hidden: boolean;
+  locked: boolean;
+  approvedBy?: string;
+  approved: boolean;
+  approvedOn?: number;
 }

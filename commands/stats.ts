@@ -20,7 +20,7 @@ export default () => {
     name: "splat",
     pattern: /^[@\+]?splat\s+(.*)/i,
     lock: "connected !approved|storyteller+",
-    category: "chargen",
+    hidden: true,
 
     exec: async (ctx, args) => {
       let tar = "me",
@@ -95,7 +95,6 @@ export default () => {
     name: "stats/reset",
     pattern: /^[@\+]?stats\/reset(?:\s+(.*))?$/i,
     lock: "connected !approved|admin+",
-    category: "chargen",
     exec: async (ctx, [tar]) => {
       const en = await Obj.get(ctx.socket.cid);
       if (!en) return;
@@ -163,7 +162,7 @@ export default () => {
   addCmd({
     name: "stats",
     pattern: /^[@\+]?stat[s]?(?:\/(.*))?\s+(.*)\s*=\s*(.*)?$/i,
-    category: "chargen",
+    hidden: true,
     lock: "connected !approved|admin+",
     exec: async (ctx, args) => {
       const en = await Obj.get(ctx.socket.cid);
@@ -208,14 +207,17 @@ export default () => {
 
       try {
         const name = (await setStat(tarObj, stat, value, !!temp)) || stat;
+        const [val, _] = value.split("/");
+
+        const disp = val && !isNaN(+val) && +val > 0
+          ? formatValue(tarObj, name)
+          : "removed";
 
         return await send(
           [ctx.socket.id],
           `%chGame>%cn ${moniker(tarObj)}'s stat %ch${
             temp ? "TEMP-" : ""
-          }${name?.toUpperCase()}%cn set to: %ch${
-            value ? formatValue(tarObj, name) : "%chremoved%cn"
-          }%cn`,
+          }${name?.toUpperCase()}%cn set to: %ch${disp}%cn`,
         );
       } catch (error: any) {
         return send([ctx.socket.id], `%chGame>%cn ${error.message}`);
