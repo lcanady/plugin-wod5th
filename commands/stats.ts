@@ -79,6 +79,7 @@ export default () => {
 
       try {
         const name = await setStat(targ, "splat", splat.trim());
+        await targ.save();
         return await send(
           [ctx.socket.id],
           `%chGame>%cn ${

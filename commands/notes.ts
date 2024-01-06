@@ -11,7 +11,7 @@ import {
 
 export default () => {
   addCmd({
-    name: "notes",
+    name: "notes/edit",
     pattern: /^[@\+]?note[s]?\s+(.*)\s*=\s*(.*)/i,
     lock: "connected !approved|storyteller+",
     hidden: true,
@@ -107,12 +107,25 @@ export default () => {
         return send([ctx.socket.id], "%chGame>%cn No notes found.");
       }
 
-      // list notes.
-      let output = header("Notes for: " + moniker(targ));
-      for (let i = 0; i < targ.data.notes.length; i++) {
-        output += `%r${i + 1}. %ch${targ.data.notes[i].title.toUpperCase()}%cn`;
-      }
+      // =========================[ NOTES for Player ]==========================
+      // * 1. This is a Note title.
+      //   2. Another Note TItle.
+      // * 3. This is a third Note title.
+      // =======================================================================
+      // To view a note, type: 'note [<player>\]<title>'.
+      // * = Unapproved note.
 
+      // list notes.
+      let output = header("NOTES for: " + moniker(targ)) + "\n";
+      for (let i = 0; i < targ.data.notes.length; i++) {
+        const note = targ.data.notes[i] as INote;
+        output += `${note.approved ? "   " : " %ch%cy*%cn "}${
+          i + 1
+        }. ${note.title}\n`;
+      }
+      output += "%cr=%cn".repeat(78);
+      output += "\nTo view a note, type: 'note [<player>\\]<title>'.";
+      output += "\n%ch%cy*%cn = Unapproved note.";
       await send([ctx.socket.id], output);
     },
   });

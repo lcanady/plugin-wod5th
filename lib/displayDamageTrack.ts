@@ -1,12 +1,19 @@
-import { IDBOBJ } from "../deps.ts";
+import { IDBOBJ, Obj } from "../deps.ts";
+import { blankSheet } from "./blankSheet.ts";
 import { calculateDamage } from "./calculateDamage.ts";
 import { getStat } from "./getStats.ts";
 
-export const displayDamageTrack = async (obj: IDBOBJ, type: string) => {
+export const displayDamageTrack = async (obj: Obj, type: string) => {
   let output = "";
   let splat = await getStat(obj, "splat");
-  const superficial = parseInt(obj.data?.damage[type].superficial || 0);
-  const aggravated = parseInt(obj.data?.damage[type].aggravated || 0);
+  obj.data ||= blankSheet(obj);
+  obj.data.damage ||= {
+    physical: { superficial: 0, aggravated: 0 },
+    mental: { superficial: 0, aggravated: 0 },
+  };
+
+  const superficial = parseInt(obj.data?.damage[type]?.superficial || 0);
+  const aggravated = parseInt(obj.data?.damage[type]?.aggravated || 0);
   let maxBoxes;
 
   if (type === "physical") {

@@ -5,7 +5,7 @@ you'll need to navigate your way!
 
 ## Starting Out
 
-- `+splat <splat>` - Set your splat! See `+splats` for a list.
+- `+template <template>` - Set your template! See `+templates` for a list.
 
 ## Setting Things
 

@@ -1,4 +1,4 @@
-import { allStats, divider, formatStat, Obj } from "../deps.ts";
+import { allStats, divider, formatStat, IMStatEntry, Obj } from "../deps.ts";
 import { getStat } from "../lib/getStats.ts";
 
 export const skills = async (obj: Obj) => {
@@ -13,9 +13,11 @@ export const skills = async (obj: Obj) => {
       formatStat(stat.name, await getStat(obj.dbobj, stat.name)),
     );
 
-    obj.data?.stats?.filter((s) => s.type === stat.name);
+    obj.data?.stats?.filter((s: IMStatEntry) => s.type === stat.name);
     for (
-      const s of obj.data?.stats?.filter((s) => s.type === stat.name) ||
+      const s of obj.data?.stats?.filter((s: IMStatEntry) =>
+        s.type === stat.name
+      ) ||
         []
     ) {
       totalPhysical.push(
@@ -36,8 +38,8 @@ export const skills = async (obj: Obj) => {
     );
 
     obj.data?.stats
-      ?.filter((s) => s.type === stat.name)
-      .forEach(async (s) => {
+      ?.filter((s: IMStatEntry) => s.type === stat.name)
+      .forEach(async (s: IMStatEntry) => {
         totalSocial.push(formatStat(s.name, await getStat(obj.dbobj, s.name)));
       });
   }
@@ -54,8 +56,8 @@ export const skills = async (obj: Obj) => {
     );
 
     obj.data?.stats
-      ?.filter((s) => s.type === stat.name)
-      .forEach(async (s) => {
+      ?.filter((s: IMStatEntry) => s.type === stat.name)
+      .forEach(async (s: IMStatEntry) => {
         totalMental.push(formatStat(s.name, await getStat(obj.dbobj, s.name)));
       });
   }

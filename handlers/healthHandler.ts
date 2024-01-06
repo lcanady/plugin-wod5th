@@ -1,7 +1,7 @@
-import { divider, IDBOBJ } from "../deps.ts";
+import { divider, Obj } from "../deps.ts";
 import { displayDamageTrack } from "../lib/displayDamageTrack.ts";
 
-export const health = async (obj: IDBOBJ) => {
+export const health = async (obj: Obj) => {
   let output = divider("Character Status") + "\n";
 
   output += await displayDamageTrack(obj, "physical");

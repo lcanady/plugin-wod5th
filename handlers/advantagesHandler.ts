@@ -1,4 +1,4 @@
-import { divider, formatStat, Obj } from "../deps.ts";
+import { divider, formatStat, IMStat, Obj } from "../deps.ts";
 import { getStat } from "../lib/getStats.ts";
 
 export const advantages = (obj: Obj) => {
@@ -11,17 +11,23 @@ export const advantages = (obj: Obj) => {
   }${divider("Flaws", "%cr-%cn", 26)}\n`;
 
   const backgrounds = obj.data?.stats
-    ?.filter((s) => s.type === "background")
-    .map(async (s) => formatStat(s.name, await getStat(obj.dbobj, s.name))) ||
+    ?.filter((s: IMStat) => s.type === "background")
+    .map(async (s: IMStat) =>
+      formatStat(s.name, await getStat(obj.dbobj, s.name))
+    ) ||
     [];
 
   const merits = obj.data?.stats
-    ?.filter((s) => s.type === "merit")
-    .map(async (s) => formatStat(s.name, await getStat(obj.dbobj, s.name))) ||
+    ?.filter((s: IMStat) => s.type === "merit")
+    .map(async (s: IMStat) =>
+      formatStat(s.name, await getStat(obj.dbobj, s.name))
+    ) ||
     [];
   const flaws = obj.data?.stats
-    ?.filter((s) => s.type === "flaw")
-    .map(async (s) => formatStat(s.name, await getStat(obj.dbobj, s.name))) ||
+    ?.filter((s: IMStat) => s.type === "flaw")
+    .map(async (s: IMStat) =>
+      formatStat(s.name, await getStat(obj.dbobj, s.name))
+    ) ||
     [];
 
   const max = Math.max(backgrounds.length, merits.length, flaws.length);

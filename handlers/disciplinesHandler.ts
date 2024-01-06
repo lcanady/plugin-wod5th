@@ -1,4 +1,4 @@
-import { divider, formatStat, Obj } from "../deps.ts";
+import { divider, formatStat, IMStat, IMStatEntry, Obj } from "../deps.ts";
 import { getStat } from "../lib/getStats.ts";
 
 export const disciplines = async (obj: Obj) => {
@@ -7,8 +7,8 @@ export const disciplines = async (obj: Obj) => {
   const totalDisciplines: any[] = [];
 
   const disciplines = obj.data?.stats
-    ?.filter((s) => s.type === "discipline")
-    .sort((a, b) => a.name.localeCompare(b.name)) || [];
+    ?.filter((s: IMStat) => s.type === "discipline")
+    .sort((a: IMStat, b: IMStat) => a.name.localeCompare(b.name)) || [];
 
   // split the disciplines into two columns. using a columns array.
 
@@ -29,8 +29,8 @@ export const disciplines = async (obj: Obj) => {
 
       for (
         const s of obj.data?.stats
-          ?.filter((s) => s.type === stat.name)
-          .sort((a, b) => a.value - b.value) || []
+          ?.filter((s: IMStatEntry) => s.type === stat.name)
+          .sort((a: IMStatEntry, b: IMStatEntry) => a.value - b.value) || []
       ) {
         colDisciplines.push(
           "   " + formatStat(s.name, await getStat(obj.dbobj, s.name), 34),
