@@ -42,7 +42,7 @@ export interface IMStat {
   values: any[];
   calcValue?: (obj: IDBOBJ) => Promise<any>;
   type: string;
-  splat?: string[];
+  template?: string[];
   lock?: string;
   category?: string;
   default?: any;

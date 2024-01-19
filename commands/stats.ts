@@ -17,14 +17,14 @@ import { setStat } from "../lib/setStat.ts";
 
 export default () => {
   addCmd({
-    name: "splat",
-    pattern: /^[@\+]?splat\s+(.*)/i,
+    name: "template",
+    pattern: /^[@\+]?template\s+(.*)/i,
     lock: "connected !approved|storyteller+",
     hidden: true,
 
     exec: async (ctx, args) => {
       let tar = "me",
-        splat = "";
+        template = "";
       const en = await Obj.get(ctx.socket.cid);
       if (!en) return;
 
@@ -43,22 +43,22 @@ export default () => {
 
         if (parts.length > 1) {
           tar = parts[0].trim().toLowerCase();
-          splat = parts[1].trim().toLowerCase();
+          template = parts[1].trim().toLowerCase();
         }
       } else {
-        splat = args[0].trim().toLowerCase();
+        template = args[0].trim().toLowerCase();
       }
 
       const targ = await target(en.dbobj, tar);
       if (!targ) return send([ctx.socket.id], "%chGame>%cn Invalid target.");
 
-      const fullStat = allStats.find((s) => s.name === "splat");
+      const fullStat = allStats.find((s) => s.name === "template");
       if (!fullStat) return send([ctx.socket.id], "%chGame>%cn Invalid stat.");
 
-      if (!fullStat.values.includes(splat)) {
+      if (!fullStat.values.includes(template)) {
         return send(
           [ctx.socket.id],
-          `%chGame>%cn Invalid splat. Must be one of: ${
+          `%chGame>%cn Invalid template. Must be one of: ${
             fullStat.values
               .map((s: any) => `%ch${capString(s)}%cn`)
               .join(", ")
@@ -66,25 +66,25 @@ export default () => {
         );
       }
 
-      if (targ.data?.stats?.find((s: IMStatEntry) => s.name === "splat")) {
+      if (targ.data?.stats?.find((s: IMStatEntry) => s.name === "template")) {
         return send(
           [ctx.socket.id],
           `%chGame>%cn ${
             moniker(
               targ,
             )
-          } already has a splat set. See: '%chhelp +stats/reset%cn'.`,
+          } already has a template set. See: '%chhelp +stats/reset%cn'.`,
         );
       }
 
       try {
-        const name = await setStat(targ, "splat", splat.trim());
+        const name = await setStat(targ, "template", template.trim());
         await targ.save();
         return await send(
           [ctx.socket.id],
           `%chGame>%cn ${
             moniker(targ)
-          }'s splat set to: %ch${splat.trim()?.toUpperCase()}%cn.`,
+          }'s template set to: %ch${template.trim()?.toUpperCase()}%cn.`,
         );
       } catch (error: any) {
         return send([ctx.socket.id], `%ch%crERROR>%cn ${error.message}`);
@@ -108,14 +108,14 @@ export default () => {
         return send([ctx.socket.id], "%chGame>%cn permission denied.");
       }
 
-      if (!targ.data?.stats?.find((s: IMStatEntry) => s.name === "splat")) {
+      if (!targ.data?.stats?.find((s: IMStatEntry) => s.name === "template")) {
         return send(
           [ctx.socket.id],
           `%chGame>%cn ${
             moniker(
               targ,
             )
-          } has no splat set. See: '%chhelp +splat%cn'.`,
+          } has no template set. See: '%chhelp +template%cn'.`,
         );
       }
 
@@ -187,14 +187,14 @@ export default () => {
         return send([ctx.socket.id], "%chGame>%cn Invalid target.");
       }
 
-      // Check to see if the target has a splat set first.
+      // Check to see if the target has a template set first.
       if (
-        !tarObj.data?.stats?.find((s: IMStatEntry) => s.name === "splat") &&
-        stat !== "splat"
+        !tarObj.data?.stats?.find((s: IMStatEntry) => s.name === "template") &&
+        stat !== "template"
       ) {
         return send(
           [ctx.socket.id],
-          `%chGame>%cn ${moniker(tarObj)} has no splat.`,
+          `%chGame>%cn ${moniker(tarObj)} has no template.`,
         );
       }
 

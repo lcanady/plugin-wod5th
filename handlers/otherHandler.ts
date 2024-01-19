@@ -2,12 +2,13 @@ import { allStats, formatStat, Obj } from "../deps.ts";
 import { getStat } from "../lib/getStats.ts";
 
 export const other = async (obj: Obj) => {
-  const splat = await getStat(obj.dbobj, "splat");
+  const template = await getStat(obj.dbobj, "template");
   let output = "";
 
   const other = allStats.filter(
     (stat) =>
-      stat.type === "other" && (stat.splat?.includes(splat) || !stat.splat),
+      stat.type === "other" &&
+      (stat.template?.includes(template) || !stat.template),
   );
 
   let totalOther = [];

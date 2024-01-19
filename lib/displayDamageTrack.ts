@@ -5,7 +5,7 @@ import { getStat } from "./getStats.ts";
 
 export const displayDamageTrack = async (obj: Obj, type: string) => {
   let output = "";
-  let splat = await getStat(obj, "splat");
+  let template = await getStat(obj, "template");
   obj.data ||= blankSheet(obj);
   obj.data.damage ||= {
     physical: { superficial: 0, aggravated: 0 },
@@ -30,7 +30,7 @@ export const displayDamageTrack = async (obj: Obj, type: string) => {
     superficial,
     aggravated,
     maxBoxes,
-    splat,
+    template,
   );
   let trackLabel = type === "physical" ? "Health:    " : "Willpower: ";
 

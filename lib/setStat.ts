@@ -95,8 +95,8 @@ export const setStat = async (
     throw new Error(`Invalid value for ${fullStat.name.toUpperCase()}.`);
   }
 
-  // Check the splat
-  if (fullStat.splat && !fullStat.splat.includes(charObj.splat)) {
+  // Check the template
+  if (fullStat.template && !fullStat.template.includes(charObj.template)) {
     throw new Error(fullStat.error || "Permission denied.");
   }
 

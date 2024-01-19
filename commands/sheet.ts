@@ -33,17 +33,20 @@ export default () => {
         return send([ctx.socket.id], "%chGame>%cn Target not found.");
       }
 
-      // if the target doesn't have a splat, we can't do anything.
-      const splat = await getStat(tarObj.dbobj, "splat");
-      if (!splat) {
+      // if the target doesn't have a template, we can't do anything.
+      const template = await getStat(tarObj.dbobj, "template");
+      if (!template) {
         // if the target is the enactor, send enactor message
         if (tarObj.id === en.id) {
-          return send([ctx.socket.id], "%chGame>%cn You don't have a splat.");
+          return send(
+            [ctx.socket.id],
+            "%chGame>%cn You don't have a template.",
+          );
         } else {
           // otherwise send target message
           return send(
             [ctx.socket.id],
-            `%chGame>%cn ${moniker(tarObj.dbobj)} doesn't have a splat.`,
+            `%chGame>%cn ${moniker(tarObj.dbobj)} doesn't have a template.`,
           );
         }
       }

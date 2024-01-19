@@ -119,7 +119,7 @@ export default () => {
       );
 
       // update the target.
-      await dbojs.modify({ _id: targ._id }, "$set", targ);
+      await targ.save();
     },
   });
 

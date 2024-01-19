@@ -5,7 +5,7 @@ export const other: IMStat[] = [
     name: "humanity",
     values: [1, 2, 3, 4, 5, 6, 7, 8, 9],
     type: "other",
-    splat: ["vampire", "mortal"],
+    template: ["vampire", "mortal"],
     check: (obj) => flags.check(obj.flags, "admin+"),
     default: 7,
   },
@@ -13,7 +13,7 @@ export const other: IMStat[] = [
     name: "blood potency",
     values: [1, 2, 3, 4, 5, 6, 7, 8, 9],
     type: "other",
-    splat: ["vampire"],
+    template: ["vampire"],
   },
   {
     name: "hunger",
