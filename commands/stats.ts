@@ -17,6 +17,29 @@ import { setStat } from "../lib/setStat.ts";
 
 export default () => {
   addCmd({
+    name: "templates",
+    pattern: /^[@\+]?templates$/i,
+    lock: "connected",
+    hidden: true,
+    exec: async (ctx) => {
+      const en = await Obj.get(ctx.socket.cid);
+      if (!en) return;
+
+      const fullStat = allStats.find((s) => s.name === "template");
+      if (!fullStat) return send([ctx.socket.id], "%chGame>%cn Invalid stat.");
+
+      return send(
+        [ctx.socket.id],
+        `%chGame>%cn Valid templates: ${
+          fullStat.values
+            .map((s: any) => `%ch${capString(s)}%cn`)
+            .join(", ")
+        }`,
+      );
+    },
+  });
+
+  addCmd({
     name: "template",
     pattern: /^[@\+]?template\s+(.*)/i,
     lock: "connected !approved|storyteller+",
@@ -210,7 +233,7 @@ export default () => {
         const name = (await setStat(tarObj, stat, value, !!temp)) || stat;
         const [val, _] = value.split("/");
 
-        const disp = val && !isNaN(+val) && +val > 0
+        const disp = val && !isNaN(+val) && +val > 0 || typeof val === "string"
           ? formatValue(tarObj, name)
           : "removed";
 
