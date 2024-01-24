@@ -201,8 +201,10 @@ export default () => {
         stat = parts[1].trim().toLowerCase();
       }
 
+      value ||= "0";
+
       // Either use the target or the enactor if no target exists.
-      const tarObj = tar ? await target(en.dbobj, tar) : en.dbobj;
+      const tarObj = await target(en, tar || "me");
       if (!tarObj) return send([ctx.socket.id], "%chGame>%cn Invalid target.");
 
       // Make sure the character can edit the target.
@@ -231,11 +233,10 @@ export default () => {
 
       try {
         const name = (await setStat(tarObj, stat, value, !!temp)) || stat;
-        const [val, _] = value.split("/");
+        let [val, _] = value.split("/");
 
-        const disp = val && !isNaN(+val) && +val > 0 || typeof val === "string"
-          ? formatValue(tarObj, name)
-          : "removed";
+        console.log(val);
+        const disp = +val ? formatValue(tarObj, name) : "removed";
 
         return await send(
           [ctx.socket.id],

@@ -18,6 +18,10 @@ you'll need to navigate your way!
 
 - `+stat [<player>]/<discipline>=<level>/<power>` - Select a discipline power.
 
+## Setting Gifts
+
+- `+stat [<player/]<gift>=1` - all gifts are set to 1.
+
 ## Unsetting Things
 
 - `+stat [<player>/]<stat>=` - Remove a stat. Also resets specialties/powers.
@@ -28,5 +32,4 @@ you'll need to navigate your way!
 ## Other Useful things
 
 - `+stats/reset` - Reset your sheet and start over.
-- `+stats/check` - Check your chargen progress.
 - `+submit` - Submit your character for approval

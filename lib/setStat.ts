@@ -1,6 +1,7 @@
 import { allStats, dbojs, IDBOBJ, IMStatEntry, Obj } from "../deps.ts";
 import { checkCondition } from "./checkCondition.ts";
 import { parseCalcValue } from "./parseCalcValue.ts";
+import { getStat } from "./getStats.ts";
 
 export const setStat = async (
   character: Obj,
@@ -92,19 +93,34 @@ export const setStat = async (
       }
 
       if (specObj && typeof (specObj.check) === "object") {
-        if (!await checkCondition(specObj.check, character)) {
-          throw new Error(specObj.error || "Permission denied.");
+        try {
+          const result = await checkCondition(specObj.check, character);
+          if (!result) throw new Error(specObj.error || "Permission denied.");
+        } catch (error) {
+          throw new Error(error || "Permission denied.");
         }
       }
     }
+  }
+
+  if (
+    typeof value === "string" &&
+    (value.startsWith("+") || value.startsWith("-"))
+  ) {
+    const current = await getStat(character, fullStat.name);
+    value = current + +value;
   }
 
   //  convert value if needed.
   if (!isNaN(+value)) value = +value;
 
   // Check the value
-  if (!fullStat.values.includes(value) && fullStat.values.length > 0 && value) {
-    throw new Error(`Invalid value for ${fullStat.name.toUpperCase()}.`);
+  if (
+    !fullStat.values.includes(value) && fullStat.values.length > 0 && value
+  ) {
+    throw new Error(
+      `Invalid value '${value}' for ${fullStat.name.toUpperCase()}.`,
+    );
   }
 
   // Check the template
@@ -121,8 +137,11 @@ export const setStat = async (
   }
 
   if (fullStat.check && typeof (fullStat.check) === "object") {
-    if (!await checkCondition(fullStat.check, character)) {
-      throw new Error(fullStat.error || "Permission denied.");
+    try {
+      const result = await checkCondition(fullStat.check, character);
+      if (!result) throw new Error(fullStat.error || "Permission denied.");
+    } catch (error) {
+      throw new Error(error || "Permission denied.");
     }
   }
 
@@ -183,26 +202,6 @@ export const setStat = async (
       type,
       category: fullStat.category,
     });
-  }
-
-  // handle any calculated values.
-  if (fullStat.calcValue) {
-    const calc = fullStat.calcValue;
-    const obj = await Obj.get(character.id);
-
-    if (calc.$set) {
-      const keys = Object.keys(calc.$set);
-
-      for (const key of keys) {
-        const val = calc.$set[key];
-
-        if (typeof val === "number") {
-          await setStat(character, key, val);
-        } else {
-          await setStat(character, key, val.$set, true);
-        }
-      }
-    }
   }
 
   // check for calcualted values.

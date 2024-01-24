@@ -38,9 +38,12 @@ export const disciplines: IMStat[] = [
         name: "animal succulence",
         type: "animalism",
         values: [3],
-        check: { $eq: { animalism: 3 } },
+        check: {
+          $eq: { animalism: 3 },
+          error:
+            "You must have at least 3 dots in Animalism to take this power.",
+        },
         template: ["vampire"],
-        error: "You must have at least 3 dots in Animalism to take this power.",
       },
       {
         name: "quell the beast",
@@ -81,9 +84,12 @@ export const disciplines: IMStat[] = [
         name: "drawing out the beast",
         type: "animalism",
         values: [5],
-        check: { $eq: { animalism: 5 } },
+        check: {
+          $eq: { animalism: 5 },
+          error:
+            "You must have at least 5 dots in Animalism to take this power.",
+        },
         template: ["vampire"],
-        error: "You must have at least 5 dots in Animalism to take this power.",
       },
       {
         name: "animal messenger",

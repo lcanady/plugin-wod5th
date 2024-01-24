@@ -7,12 +7,12 @@ export const gifts: IMStat[] = [
     template: ["werewolf"],
     values: [1],
     check: {
-      $total: {
-        stats: ["glory", "honor", "willpower"],
-        condition: { $gte: 1 },
+      $eq: {
+        stats: ["glory", "honor", "wisdom"],
+        value: 1,
+        error: "You must have at least 1 point in renown to take this gift.",
       },
     },
-    error: "You must have at least 1 point in renown to take this gift.",
   },
   {
     name: "eyes of the owl",
@@ -20,12 +20,12 @@ export const gifts: IMStat[] = [
     template: ["werewolf"],
     values: [1],
     check: {
-      $total: {
-        stats: ["glory", "honor", "willpower"],
-        condition: { $gte: 1 },
+      $eq: {
+        stats: ["glory", "honor", "wisdom"],
+        value: 1,
+        error: "You must have at least 1 point in renown to take this gift.",
       },
     },
-    error: "You must have at least 1 point in renown to take this gift.",
   },
   {
     name: "hares leap",
@@ -33,12 +33,12 @@ export const gifts: IMStat[] = [
     template: ["werewolf"],
     values: [1],
     check: {
-      $total: {
-        stats: ["glory", "honor", "willpower"],
-        condition: { $gte: 1 },
+      $eq: {
+        stats: ["glory", "honor", "wisdom"],
+        value: 1,
+        error: "You must have at least 1 point in renown to take this gift.",
       },
     },
-    error: "You must have at least 1 point in renown to take this gift.",
   },
   {
     name: "prenumbral senses",
@@ -46,12 +46,12 @@ export const gifts: IMStat[] = [
     template: ["werewolf"],
     values: [1],
     check: {
-      $total: {
-        stats: ["glory", "honor", "willpower"],
-        condition: { $gte: 1 },
+      $eq: {
+        stats: ["glory", "honor", "wisdom"],
+        value: 1,
+        error: "You must have at least 1 point in renown to take this gift.",
       },
     },
-    error: "You must have at least 1 point in renown to take this gift.",
   },
   {
     name: "raging strike",
@@ -59,9 +59,9 @@ export const gifts: IMStat[] = [
     template: ["werewolf"],
     values: [1],
     check: {
-      $total: {
-        stats: ["glory", "honor", "willpower"],
-        condition: { $gte: 1 },
+      $eq: {
+        stats: ["glory", "honor", "wisdom"],
+        value: 1,
       },
     },
     error: "You must have at least 1 point in renown to take this gift.",
@@ -72,9 +72,9 @@ export const gifts: IMStat[] = [
     template: ["werewolf"],
     values: [1],
     check: {
-      $total: {
-        stats: ["glory", "honor", "willpower"],
-        condition: { $gte: 1 },
+      $eq: {
+        stats: ["glory", "honor", "wisdom"],
+        value: 1,
       },
     },
     error: "You must have at least 1 point in renown to take this gift.",
@@ -85,9 +85,9 @@ export const gifts: IMStat[] = [
     template: ["werewolf"],
     values: [1],
     check: {
-      $total: {
-        stats: ["glory", "honor", "willpower"],
-        condition: { $gte: 4 },
+      $eq: {
+        stats: ["glory", "honor", "wisdom"],
+        value: 4,
       },
     },
     error: "You must have at least 1 point in renown to take this gift.",
@@ -98,9 +98,9 @@ export const gifts: IMStat[] = [
     template: ["werewolf"],
     values: [1],
     check: {
-      $total: {
-        stats: ["glory", "honor", "willpower"],
-        condition: { $gte: 4 },
+      $eq: {
+        stats: ["glory", "honor", "wisdom"],
+        value: 4,
       },
     },
     error: "You must have at least 4 points of renown to take this gift.",
@@ -111,9 +111,9 @@ export const gifts: IMStat[] = [
     template: ["werewolf"],
     values: [1],
     check: {
-      $total: {
-        stats: ["glory", "honor", "willpower"],
-        condition: { $gte: 4 },
+      $eq: {
+        stats: ["glory", "honor", "wisdom"],
+        value: 4,
       },
     },
     error: "You must have at least 4 points of renown to take this gift.",
@@ -124,9 +124,9 @@ export const gifts: IMStat[] = [
     template: ["werewolf"],
     values: [1],
     check: {
-      $total: {
-        stats: ["wisdom", "honor", "willpower"],
-        condition: { $gte: 7 },
+      $eq: {
+        stats: ["glory", "honor", "wisdom"],
+        value: 7,
       },
     },
     error: "You must have at least 7 points of renown to take this gift.",
@@ -137,9 +137,9 @@ export const gifts: IMStat[] = [
     template: ["werewolf"],
     values: [1],
     check: {
-      $total: {
-        stats: ["wisdom", "honor", "willpower"],
-        condition: { $gte: 7 },
+      $eq: {
+        stats: ["glory", "honor", "wisdom"],
+        value: 7,
       },
     },
     error: "You must have at least 7 points of renown to take this gift.",
@@ -150,9 +150,9 @@ export const gifts: IMStat[] = [
     template: ["werewolf"],
     values: [1],
     check: {
-      $total: {
-        stats: ["wisdom", "honor", "willpower"],
-        condition: { $gte: 7 },
+      $eq: {
+        stats: ["glory", "honor", "wisdom"],
+        value: 7,
       },
     },
     error: "You must have at least 7 points of renown to take this gift.",
@@ -163,13 +163,15 @@ export const gifts: IMStat[] = [
     template: ["werewolf"],
     values: [1],
     check: {
-      $and: {
-        $total: {
-          stats: ["wisdom", "honor", "willpower"],
-          condition: { $gte: 2 },
+      $and: [
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 2 },
+          },
         },
-        $gte: { auspice: "ragabash" },
-      },
+        { $eq: { auspice: "ragabash" } },
+      ],
     },
     error:
       "You must have at least 2 points of renown and be a ragabash to take this gift.",
@@ -180,13 +182,15 @@ export const gifts: IMStat[] = [
     template: ["werewolf"],
     values: [1],
     check: {
-      $and: {
-        $total: {
-          stats: ["wisdom", "honor", "willpower"],
-          condition: { $gte: 2 },
+      $and: [
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 2 },
+          },
         },
-        $gte: { auspice: "ragabash" },
-      },
+        { $eq: { auspice: "ragabash" } },
+      ],
     },
     error:
       "You must have at least 2 points of renown and be a ragabash to take this gift.",
@@ -197,13 +201,15 @@ export const gifts: IMStat[] = [
     template: ["werewolf"],
     values: [1],
     check: {
-      $and: {
-        $total: {
-          stats: ["wisdom", "honor", "willpower"],
-          condition: { $gte: 2 },
+      $and: [
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 2 },
+          },
         },
-        $gte: { auspice: "ragabash" },
-      },
+        { $eq: { auspice: "ragabash" } },
+      ],
     },
     error:
       "You must have at least 2 points of renown and be a ragabash to take this gift.",
@@ -214,13 +220,15 @@ export const gifts: IMStat[] = [
     template: ["werewolf"],
     values: [1],
     check: {
-      $and: {
-        $total: {
-          stats: ["wisdom", "honor", "willpower"],
-          condition: { $gte: 2 },
+      $and: [
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 2 },
+          },
         },
-        $gte: { auspice: "ragabash" },
-      },
+        { $eq: { auspice: "ragabash" } },
+      ],
     },
     error:
       "You must have at least 2 points of renown and be a ragabash to take this gift.",
@@ -231,13 +239,15 @@ export const gifts: IMStat[] = [
     template: ["werewolf"],
     values: [1],
     check: {
-      $and: {
-        $total: {
-          stats: ["wisdom", "honor", "willpower"],
-          condition: { $gte: 5 },
+      $and: [
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 5 },
+          },
         },
-        $gte: { auspice: "ragabash" },
-      },
+        { $eq: { auspice: "ragabash" } },
+      ],
     },
     error:
       "You must have at least 5 points of renown and be a ragabash to take this gift.",
@@ -248,13 +258,15 @@ export const gifts: IMStat[] = [
     template: ["werewolf"],
     values: [1],
     check: {
-      $and: {
-        $total: {
-          stats: ["wisdom", "honor", "willpower"],
-          condition: { $gte: 5 },
+      $and: [
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 5 },
+          },
         },
-        $gte: { auspice: "ragabash" },
-      },
+        { $eq: { auspice: "ragabash" } },
+      ],
     },
     error:
       "You must have at least 5 points of renown and be a ragabash to take this gift.",
@@ -265,13 +277,15 @@ export const gifts: IMStat[] = [
     template: ["werewolf"],
     values: [1],
     check: {
-      $and: {
-        $total: {
-          stats: ["wisdom", "honor", "willpower"],
-          condition: { $gte: 5 },
+      $and: [
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 5 },
+          },
         },
-        $gte: { auspice: "ragabash" },
-      },
+        { $eq: { auspice: "ragabash" } },
+      ],
     },
     error:
       "You must have at least 5 points of renown and be a ragabash to take this gift.",
@@ -282,13 +296,15 @@ export const gifts: IMStat[] = [
     template: ["werewolf"],
     values: [1],
     check: {
-      $and: {
-        $total: {
-          stats: ["wisdom", "honor", "willpower"],
-          condition: { $gte: 5 },
+      $and: [
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 5 },
+          },
         },
-        $gte: { auspice: "ragabash" },
-      },
+        { $eq: { auspice: "ragabash" } },
+      ],
     },
     error:
       "You must have at least 5 points of renown and be a ragabash to take this gift.",
@@ -299,13 +315,15 @@ export const gifts: IMStat[] = [
     template: ["werewolf"],
     values: [1],
     check: {
-      $and: {
-        $total: {
-          stats: ["wisdom", "honor", "willpower"],
-          condition: { $gte: 8 },
+      $and: [
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 8 },
+          },
         },
-        $gte: { auspice: "ragabash" },
-      },
+        { $eq: { auspice: "ragabash" } },
+      ],
     },
     error:
       "You must have at least 8 points of renown and be a ragabash to take this gift.",
@@ -316,13 +334,15 @@ export const gifts: IMStat[] = [
     template: ["werewolf"],
     values: [1],
     check: {
-      $and: {
-        $total: {
-          stats: ["wisdom", "honor", "willpower"],
-          condition: { $gte: 8 },
+      $and: [
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 8 },
+          },
         },
-        $gte: { auspice: "ragabash" },
-      },
+        { $eq: { auspice: "ragabash" } },
+      ],
     },
     error:
       "You must have at least 8 points of renown and be a ragabash to take this gift.",
@@ -333,13 +353,15 @@ export const gifts: IMStat[] = [
     template: ["werewolf"],
     values: [1],
     check: {
-      $and: {
-        $total: {
-          stats: ["wisdom", "honor", "willpower"],
-          condition: { $gte: 8 },
+      $and: [
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 8 },
+          },
         },
-        $gte: { auspice: "ragabash" },
-      },
+        { $eq: { auspice: "ragabash" } },
+      ],
     },
     error:
       "You must have at least 8 points of renown and be a ragabash to take this gift.",
@@ -350,13 +372,15 @@ export const gifts: IMStat[] = [
     template: ["werewolf"],
     values: [1],
     check: {
-      $and: {
-        $total: {
-          stats: ["wisdom", "honor", "willpower"],
-          condition: { $gte: 8 },
+      $and: [
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 8 },
+          },
         },
-        $gte: { auspice: "ragabash" },
-      },
+        { $eq: { auspice: "ragabash" } },
+      ],
     },
     error:
       "You must have at least 8 points of renown and be a ragabash to take this gift.",
@@ -367,15 +391,17 @@ export const gifts: IMStat[] = [
     template: ["werewolf"],
     values: [1],
     check: {
-      $and: {
-        $total: {
-          stats: ["wisdom", "honor", "willpower"],
-          condition: { $gte: 2 },
+      $and: [
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 2 },
+            error:
+              "You must have at least 2 points of renown to take this gift.",
+          },
         },
-        $gte: { auspice: "theurge" },
-      },
+        { $eq: { auspice: "theurge" }, error: "You must be a theurge." },
+      ],
     },
-    error:
-      "You must have at least 2 points of renown and be a theurge to take this gift.",
   },
 ];

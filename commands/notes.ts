@@ -1,3 +1,4 @@
+import { capString } from "../deps.ts";
 import {
   addCmd,
   canEdit,
@@ -12,67 +13,58 @@ import {
 export default () => {
   addCmd({
     name: "notes/edit",
-    pattern: /^[@\+]?note[s]?\s+(.*)\s*=\s*(.*)/i,
+    // +note[/<category>] <title> = <text>
+    pattern: /^[@\+]?note[s]?(?:\/(\w+))?\s+(.*)\s*=\s*(.*)/i,
     lock: "connected !approved|storyteller+",
     hidden: true,
     exec: async (ctx, args) => {
+      const categories = [
+        "general",
+        "backgrounds",
+        "story",
+        "merits",
+        "flaws",
+        "items",
+        "specialties",
+        "other",
+      ];
+
       const en = await Obj.get(ctx.socket.cid);
       if (!en) return;
 
-      let [tar, title] = args[0].split("/");
-
-      if (!title) {
-        tar = "me";
-        title = args[0];
-      } else {
-        tar = tar.trim().toLowerCase();
-        title = title.trim();
+      if (args[0] && !categories.includes(args[0].toLowerCase())) {
+        return send([ctx.socket.id], "%chGame>%cn Invalid category.");
       }
 
-      const targ = await target(en.dbobj, tar);
-      if (!targ) return send([ctx.socket.id], "%chGame>%cn Invalid target.");
-      if (!canEdit(en.dbobj, targ)) {
-        return send([ctx.socket.id], "%chGame>%cn Permission denied.");
-      }
-
-      targ.data ||= {};
-      targ.data.notes ||= [] as INote[];
-
-      const note = targ.data.notes.find((n: any) => n.title === title);
+      const note = en.data.notes.find((n: any) =>
+        n.title === args[1].toLowerCase()
+      );
       if (note) {
-        if (!args[1]) {
-          targ.data.notes = targ.data.notes.filter((n: any) =>
-            n.title !== title
+        if (!args[2]) {
+          en.data.notes = en.data.notes.filter((n: any) =>
+            n.title !== args[1].toLowerCase()
           );
         } else {
           note.text = args[1];
         }
       } else {
-        targ.data.notes.push({
-          title,
-          text: args[1],
+        en.data.notes.push({
+          title: args[1].toLowerCase(),
+          text: args[3],
           date: Date.now(),
+          category: args[0] || "general",
           hidden: false,
           locked: false,
           approved: false,
         });
       }
 
-      await targ.save();
+      await en.save();
 
-      if (tar === "me") {
-        return await send(
-          [ctx.socket.id],
-          `%chGame>%cn Your Note %ch${title.toUpperCase()}%cn ${
-            args[1] ? "saved" : "removed"
-          }.`,
-        );
-      }
-
-      await send(
+      return await send(
         [ctx.socket.id],
-        `%chGame>%cn ${moniker(targ)}'s Note %ch${title.toUpperCase()}%cn ${
-          args[1] ? "saved" : "removed"
+        `%chGame>%cn Your Note %ch${capString(args[1])}%cn ${
+          args[2] ? "saved" : "removed"
         }.`,
       );
     },
@@ -108,25 +100,31 @@ export default () => {
       }
 
       // =========================[ NOTES for Player ]==========================
+      // --------------------------[ General Notes ]----------------------------
       // * 1. This is a Note title.
-      //   2. Another Note TItle.
-      // * 3. This is a third Note title.
+      //   3. Another Note TItle.
+      // ------------------------[ Background Notes ]--------------------------
+      // * 2. This is a third Note title.
       // =======================================================================
       // To view a note, type: 'note [<player>\]<title>'.
-      // * = Unapproved note.
+      // * = Approved note.
 
       // list notes.
       let output = header("NOTES for: " + moniker(targ)) + "\n";
-      for (let i = 0; i < targ.data.notes.length; i++) {
-        const note = targ.data.notes[i] as INote;
-        output += `${note.approved ? "   " : " %ch%cy*%cn "}${
-          i + 1
-        }. ${note.title}\n`;
+
+      const cats = new Set<string>();
+      for (const note of targ.data.notes) {
+        cats.add(note.category);
       }
-      output += "%cr=%cn".repeat(78);
-      output += "\nTo view a note, type: 'note [<player>\\]<title>'.";
-      output += "\n%ch%cy*%cn = Unapproved note.";
-      await send([ctx.socket.id], output);
+
+      for (const cat of cats) {
+        output += header(capString(cat) + " Notes") + "\n";
+        for (const note of targ.data.notes) {
+          if (note.category === cat) {
+            output += `* ${note.title}\n`;
+          }
+        }
+      }
     },
   });
 };

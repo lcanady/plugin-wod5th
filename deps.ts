@@ -75,14 +75,23 @@ export interface INote {
   approvedOn?: number;
 }
 
-interface BaseCondition {
+interface ConditionPart {
+  error?: string; // Optional error message
+}
+
+interface StatComparison extends ConditionPart {
+  stats: string[];
+  value: number;
+}
+
+interface BaseCondition extends ConditionPart {
   [key: string]: any;
-  $lt?: Record<string, any>;
-  $lte?: Record<string, any>;
-  $gt?: Record<string, any>;
-  $gte?: Record<string, any>;
-  $ne?: Record<string, any>;
-  $eq?: Record<string, any>;
+  $lt?: Record<string, any> | StatComparison;
+  $lte?: Record<string, any> | StatComparison;
+  $gt?: Record<string, any> | StatComparison;
+  $gte?: Record<string, any> | StatComparison;
+  $ne?: Record<string, any> | StatComparison;
+  $eq?: Record<string, any> | StatComparison;
   $in?: Record<string, any[]>;
   $nin?: Record<string, any[]>;
   $flags?: string;
@@ -93,12 +102,7 @@ interface ComplexCondition extends BaseCondition {
   $and?: Condition[];
   $or?: Condition[];
   $not?: Condition;
-  $total?: {
-    stats: string[];
-    condition: Condition;
-  };
 }
-
 export type Condition = ComplexCondition | BaseCondition;
 
 export interface CalcValue {
