@@ -1,7 +1,9 @@
 import { allStats, dbojs, IDBOBJ, IMStatEntry, Obj } from "../deps.ts";
+import { checkCondition } from "./checkCondition.ts";
+import { parseCalcValue } from "./parseCalcValue.ts";
 
 export const setStat = async (
-  character: IDBOBJ,
+  character: Obj,
   stat: string,
   value: any,
   temp?: boolean,
@@ -31,7 +33,9 @@ export const setStat = async (
 
   // get the full stat name from the partial name.
   const fullStat = allStats.find((s) =>
-    s.name.toLowerCase().startsWith(stat!.toLowerCase().trim())
+    s.name.toLowerCase().startsWith(stat!.toLowerCase().trim()) &&
+    (s.template?.includes(character?.template.toLowerCase() || "") ||
+      !s.template)
   );
 
   if (!fullStat) throw new Error("Invalid stat.");
@@ -54,8 +58,7 @@ export const setStat = async (
   // --------------------------------------------------------------------
   // ie.  when the value has a / in it.
   // ex:  +stats me/academics=1/library research
-  const charObj = await Obj.get(character.id);
-  if (!charObj) throw new Error("Invalid character.");
+  if (!character) throw new Error("Invalid character.");
 
   if (value?.includes("/")) {
     const [value1, value2] = value.split("/");
@@ -81,8 +84,17 @@ export const setStat = async (
         throw new Error("Invalid specialty value.");
       }
 
-      if (specObj && specObj.check && !specObj.check(charObj)) {
+      if (
+        specObj && specObj.check && typeof (specObj.check) === "function" &&
+        !specObj.check(character)
+      ) {
         throw new Error(specObj.error || "Permission denied.");
+      }
+
+      if (specObj && typeof (specObj.check) === "object") {
+        if (!await checkCondition(specObj.check, character)) {
+          throw new Error(specObj.error || "Permission denied.");
+        }
       }
     }
   }
@@ -96,13 +108,22 @@ export const setStat = async (
   }
 
   // Check the template
-  if (fullStat.template && !fullStat.template.includes(charObj.template)) {
+  if (fullStat.template && !fullStat.template.includes(character.template)) {
     throw new Error(fullStat.error || "Permission denied.");
   }
 
   // if there's a check on the stat, see if it passes.
-  if (fullStat.check && !fullStat.check(charObj)) {
+  if (
+    fullStat.check && typeof (fullStat.check) === "function" &&
+    !fullStat.check(character)
+  ) {
     throw new Error(fullStat.error || "Permission denied.");
+  }
+
+  if (fullStat.check && typeof (fullStat.check) === "object") {
+    if (!await checkCondition(fullStat.check, character)) {
+      throw new Error(fullStat.error || "Permission denied.");
+    }
   }
 
   // Set the stats (or specialty!)!
@@ -128,7 +149,7 @@ export const setStat = async (
       );
     }
 
-    await dbojs.modify({ id: character.id }, "$set", character);
+    await character.save();
     return name;
   } else if (!value && temp) {
     character.data.stats = character.data.stats.map((s: IMStatEntry) => {
@@ -138,12 +159,14 @@ export const setStat = async (
       return s;
     });
 
-    await dbojs.modify({ id: character.id }, "$set", character);
+    await character.save();
     return name;
   }
 
   // does the user already have an instance of the stat?
-  const statEntry = character.data.stats.find((s) => s.name === name);
+  const statEntry = character.data.stats.find((s: IMStatEntry) =>
+    s.name === name
+  );
 
   if (statEntry) {
     if (!temp) {
@@ -162,7 +185,32 @@ export const setStat = async (
     });
   }
 
-  await dbojs.modify({ id: character.id }, "$set", character);
+  // handle any calculated values.
+  if (fullStat.calcValue) {
+    const calc = fullStat.calcValue;
+    const obj = await Obj.get(character.id);
+
+    if (calc.$set) {
+      const keys = Object.keys(calc.$set);
+
+      for (const key of keys) {
+        const val = calc.$set[key];
+
+        if (typeof val === "number") {
+          await setStat(character, key, val);
+        } else {
+          await setStat(character, key, val.$set, true);
+        }
+      }
+    }
+  }
+
+  // check for calcualted values.
+  if (fullStat.calcValue) {
+    parseCalcValue(character, fullStat.calcValue);
+  }
+
+  await character.save();
 
   return name;
 };

@@ -1,8 +1,9 @@
+import { IMStat } from "../deps.ts";
 import { allStats, IDBOBJ, Obj } from "../deps.ts";
 
 export const getStat = async (character: IDBOBJ | Obj, stat: string) => {
   // first we need to see if the player has the stat in their data.
-  const statEntry = character.data?.stats?.find((s) =>
+  const statEntry = character.data?.stats?.find((s: IMStat) =>
     s.name.toLowerCase().startsWith(stat.toLowerCase())
   );
 

@@ -40,7 +40,7 @@ export {
 export interface IMStat {
   name: string;
   values: any[];
-  calcValue?: (obj: IDBOBJ) => Promise<any>;
+  calcValue?: CalcValue;
   type: string;
   template?: string[];
   lock?: string;
@@ -52,8 +52,8 @@ export interface IMStat {
   hasSpecialties?: boolean;
   specialties?: IMStat[];
   error?: string;
-  check?: (obj: Obj) => boolean | Promise<boolean>;
-  callback?: (obj: Obj) => Promise<void>;
+  check?: ((obj: Obj) => boolean | Promise<boolean>) | Condition;
+  callback?: (obj: Obj) => Promise<void> | { [key: string]: any };
 }
 
 export interface IMStatEntry {
@@ -73,4 +73,39 @@ export interface INote {
   approvedBy?: string;
   approved: boolean;
   approvedOn?: number;
+}
+
+interface BaseCondition {
+  [key: string]: any;
+  $lt?: Record<string, any>;
+  $lte?: Record<string, any>;
+  $gt?: Record<string, any>;
+  $gte?: Record<string, any>;
+  $ne?: Record<string, any>;
+  $eq?: Record<string, any>;
+  $in?: Record<string, any[]>;
+  $nin?: Record<string, any[]>;
+  $flags?: string;
+  $regex?: Record<string, string>;
+}
+
+interface ComplexCondition extends BaseCondition {
+  $and?: Condition[];
+  $or?: Condition[];
+  $not?: Condition;
+  $total?: {
+    stats: string[];
+    condition: Condition;
+  };
+}
+
+export type Condition = ComplexCondition | BaseCondition;
+
+export interface CalcValue {
+  $set?: { [key: string]: number | CalcValue };
+  $add?: (string | number)[];
+  $sub?: (string | number)[];
+  $mul?: (string | number)[];
+  $div?: (string | number)[];
+  [key: string]: any;
 }

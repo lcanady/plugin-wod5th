@@ -13,7 +13,6 @@ export const skills = async (obj: Obj) => {
       formatStat(stat.name, await getStat(obj.dbobj, stat.name)),
     );
 
-    obj.data?.stats?.filter((s: IMStatEntry) => s.type === stat.name);
     for (
       const s of obj.data?.stats?.filter((s: IMStatEntry) =>
         s.type === stat.name
@@ -40,7 +39,9 @@ export const skills = async (obj: Obj) => {
     obj.data?.stats
       ?.filter((s: IMStatEntry) => s.type === stat.name)
       .forEach(async (s: IMStatEntry) => {
-        totalSocial.push(formatStat(s.name, await getStat(obj.dbobj, s.name)));
+        totalSocial.push(
+          "   " + formatStat(s.name, await getStat(obj.dbobj, s.name), 21),
+        );
       });
   }
 
@@ -58,7 +59,9 @@ export const skills = async (obj: Obj) => {
     obj.data?.stats
       ?.filter((s: IMStatEntry) => s.type === stat.name)
       .forEach(async (s: IMStatEntry) => {
-        totalMental.push(formatStat(s.name, await getStat(obj.dbobj, s.name)));
+        totalMental.push(
+          "   " + formatStat(s.name, await getStat(obj.dbobj, s.name), 21),
+        );
       });
   }
 
@@ -70,13 +73,13 @@ export const skills = async (obj: Obj) => {
 
   // fill the left over space with empty strings.
   totalPhysical.push(
-    ...Array(total - totalPhysical.length).fill("                      "),
+    ...Array(total - totalPhysical.length).fill("                        "),
   );
   totalMental.push(
-    ...Array(total - totalMental.length).fill("                      "),
+    ...Array(total - totalMental.length).fill("                        "),
   );
   totalSocial.push(
-    ...Array(total - totalSocial.length).fill("                      "),
+    ...Array(total - totalSocial.length).fill("                        "),
   );
 
   let output = divider("Skills") + "%r";

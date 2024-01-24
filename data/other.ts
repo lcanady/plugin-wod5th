@@ -17,6 +17,7 @@ export const other: IMStat[] = [
   },
   {
     name: "hunger",
+    template: ["vampire"],
     type: "other",
     values: [0, 1, 2, 3, 4, 5],
     default: 0,
