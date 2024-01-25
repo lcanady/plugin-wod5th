@@ -135,4 +135,27 @@ export const merits: IMStat[] = [
     type: "merit",
     template: ["vampire"],
   },
+  {
+    name: "mawla",
+    values: [1, 2, 3, 4, 5],
+    type: "merit",
+    template: ["vampire"],
+  },
+  {
+    name: "resources",
+    values: [1, 2, 3, 4, 5],
+    type: "merit",
+  },
+  {
+    name: "retainers",
+    values: [1, 2, 3],
+    type: "merit",
+    template: ["vampire"],
+  },
+  {
+    name: "status",
+    values: [1, 2, 3, 4, 5],
+    type: "merit",
+    hasInstance: true,
+  },
 ];

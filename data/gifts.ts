@@ -404,4 +404,536 @@ export const gifts: IMStat[] = [
       ],
     },
   },
+  {
+    name: "mother's touch",
+    type: "gift",
+    template: ["werewolf"],
+    values: [1],
+    check: {
+      $and: [
+        { $eq: { auspice: "theurge" }, error: "You must be a theurge." },
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 2 },
+            error:
+              "You must have at least 2 points of renown to take this gift.",
+          },
+        },
+      ],
+    },
+  },
+  {
+    name: "shadow sense",
+    type: "gift",
+    template: ["werewolf"],
+    values: [1],
+    check: {
+      $and: [
+        { $eq: { auspice: "theurge" }, error: "You must be a theurge." },
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 2 },
+            error:
+              "You must have at least 2 points of renown to take this gift.",
+          },
+        },
+      ],
+    },
+  },
+  {
+    name: "sight from beyond",
+    type: "gift",
+    template: ["werewolf"],
+    values: [1],
+    check: {
+      $and: [
+        { $eq: { auspice: "theurge" }, error: "You must be a theurge." },
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 2 },
+            error:
+              "You must have at least 2 points of renown to take this gift.",
+          },
+        },
+      ],
+    },
+  },
+  {
+    name: "banish spirit",
+    type: "gift",
+    template: ["werewolf"],
+    values: [1],
+    check: {
+      $and: [
+        { $eq: { auspice: "theurge" }, error: "You must be a theurge." },
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 5 },
+            error:
+              "You must have at least 5 points of renown to take this gift.",
+          },
+        },
+      ],
+    },
+  },
+  {
+    name: "grasp from beyond",
+    type: "gift",
+    template: ["werewolf"],
+    values: [1],
+    check: {
+      $and: [
+        { $eq: { auspice: "theurge" }, error: "You must be a theurge." },
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 5 },
+            error:
+              "You must have at least 5 points of renown to take this gift.",
+          },
+        },
+      ],
+    },
+  },
+  {
+    name: "mindspeak",
+    type: "gift",
+    template: ["werewolf"],
+    values: [1],
+    check: {
+      $and: [
+        { $eq: { auspice: "theurge" }, error: "You must be a theurge." },
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 5 },
+            error:
+              "You must have at least 5 points of renown to take this gift.",
+          },
+        },
+      ],
+    },
+  },
+  {
+    name: "umbral tether",
+    type: "gift",
+    template: ["werewolf"],
+    values: [1],
+    check: {
+      $and: [
+        { $eq: { auspice: "theurge" }, error: "You must be a theurge." },
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 5 },
+            error:
+              "You must have at least 5 points of renown to take this gift.",
+          },
+        },
+      ],
+    },
+  },
+  {
+    name: "command spirit",
+    type: "gift",
+    template: ["werewolf"],
+    values: [1],
+    check: {
+      $and: [
+        { $eq: { auspice: "theurge" }, error: "You must be a theurge." },
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 8 },
+            error:
+              "You must have at least 8 points of renown to take this gift.",
+          },
+        },
+      ],
+    },
+  },
+  {
+    name: "feral regression",
+    type: "gift",
+    template: ["werewolf"],
+    values: [1],
+    check: {
+      $and: [
+        { $eq: { auspice: "theurge" }, error: "You must be a theurge." },
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 8 },
+            error:
+              "You must have at least 8 points of renown to take this gift.",
+          },
+        },
+      ],
+    },
+  },
+  {
+    name: "living ward",
+    type: "gift",
+    template: ["werewolf"],
+    values: [1],
+    check: {
+      $and: [
+        { $eq: { auspice: "theurge" }, error: "You must be a theurge." },
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 8 },
+            error:
+              "You must have at least 8 points of renown to take this gift.",
+          },
+        },
+      ],
+    },
+  },
+  {
+    name: "ancestral conviction",
+    type: "gift",
+    template: ["werewolf"],
+    values: [1],
+    check: {
+      $and: [
+        {
+          $eq: {
+            stats: ["glory", "honor", "wisdom"],
+            value: 2,
+            error:
+              "You must have at least 2 points of renown to take this gift.",
+          },
+        },
+        { $eq: { auspice: "philodox" }, error: "You must be a philodox." },
+      ],
+    },
+  },
+  {
+    name: "gaia's candor",
+    type: "gift",
+    template: ["werewolf"],
+    values: [1],
+    check: {
+      $and: [
+        {
+          $eq: {
+            stats: ["glory", "honor", "wisdom"],
+            value: 2,
+            error:
+              "You must have at least 2 points of renown to take this gift.",
+          },
+        },
+        { $eq: { auspice: "philodox" }, error: "You must be a philodox." },
+      ],
+    },
+  },
+  {
+    name: "porcupine's reprisal",
+    type: "gift",
+    template: ["werewolf"],
+    values: [1],
+    check: {
+      $and: [
+        {
+          $eq: {
+            stats: ["glory", "honor", "wisdom"],
+            value: 2,
+            error:
+              "You must have at least 2 points of renown to take this gift.",
+          },
+        },
+        { $eq: { auspice: "philodox" }, error: "You must be a philodox." },
+      ],
+    },
+  },
+  {
+    name: "sense the true form",
+    type: "gift",
+    template: ["werewolf"],
+    values: [1],
+    check: {
+      $and: [
+        {
+          $eq: {
+            stats: ["glory", "honor", "wisdom"],
+            value: 2,
+            error:
+              "You must have at least 2 points of renown to take this gift.",
+          },
+        },
+        { $eq: { auspice: "philodox" }, error: "You must be a philodox." },
+      ],
+    },
+  },
+  {
+    name: "beast's fealty",
+    type: "gift",
+    template: ["werewolf"],
+    values: [1],
+    check: {
+      $and: [
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 5 },
+            error:
+              "You must have at least 5 points of renown to take this gift.",
+          },
+        },
+        { $eq: { auspice: "philodox" }, error: "You must be a philodox." },
+      ],
+    },
+  },
+  {
+    name: "command the gathering",
+    type: "gift",
+    template: ["werewolf"],
+    values: [1],
+    check: {
+      $and: [
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 5 },
+            error:
+              "You must have at least 5 points of renown to take this gift.",
+          },
+        },
+        { $eq: { auspice: "philodox" }, error: "You must be a philodox." },
+      ],
+    },
+  },
+  {
+    name: "fangs of judgement",
+    type: "gift",
+    template: ["werewolf"],
+    values: [1],
+    check: {
+      $and: [
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 5 },
+            error:
+              "You must have at least 5 points of renown to take this gift.",
+          },
+        },
+        { $eq: { auspice: "philodox" }, error: "You must be a philodox." },
+      ],
+    },
+  },
+  {
+    name: "geas",
+    type: "gift",
+    template: ["werewolf"],
+    values: [1],
+    check: {
+      $and: [
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 8 },
+            error:
+              "You must have at least 8 points of renown to take this gift.",
+          },
+        },
+        { $eq: { auspice: "philodox" }, error: "You must be a philodox." },
+      ],
+    },
+  },
+  {
+    name: "oathbreaker's bane",
+    type: "gift",
+    template: ["werewolf"],
+    values: [1],
+    check: {
+      $and: [
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 8 },
+            error:
+              "You must have at least 8 points of renown to take this gift.",
+          },
+        },
+        { $eq: { auspice: "philodox" }, error: "You must be a philodox." },
+      ],
+    },
+  },
+  {
+    name: "strength of purpose",
+    type: "gift",
+    template: ["werewolf"],
+    values: [1],
+    check: {
+      $and: [
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 8 },
+            error:
+              "You must have at least 8 points of renown to take this gift.",
+          },
+        },
+        { $eq: { auspice: "philodox" }, error: "You must be a philodox." },
+      ],
+    },
+  },
+  {
+    name: "take the true form",
+    type: "gift",
+    template: ["werewolf"],
+    values: [1],
+    check: {
+      $and: [
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 8 },
+            error:
+              "You must have at least 8 points of renown to take this gift.",
+          },
+        },
+        { $eq: { auspice: "philodox" }, error: "You must be a philodox." },
+      ],
+    },
+  },
+  {
+    name: "take the true form",
+    type: "gift",
+    template: ["werewolf"],
+    values: [1],
+    check: {
+      $and: [
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 8 },
+            error:
+              "You must have at least 8 points of renown to take this gift.",
+          },
+        },
+        { $eq: { auspice: "philodox" }, error: "You must be a philodox." },
+      ],
+    },
+  },
+  {
+    name: "animal magentism",
+    type: "gift",
+    template: ["werewolf"],
+    values: [1],
+    check: {
+      $and: [
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 2 },
+            error:
+              "You must have at least 2 points of renown to take this gift.",
+          },
+        },
+        { $eq: { auspice: "galliard" }, error: "You must be a galliard." },
+      ],
+    },
+  },
+  {
+    name: "howl of assembly",
+    type: "gift",
+    template: ["werewolf"],
+    values: [1],
+    check: {
+      $and: [
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 2 },
+            error:
+              "You must have at least 2 points of renown to take this gift.",
+          },
+        },
+        { $eq: { auspice: "galliard" }, error: "You must be a galliard." },
+      ],
+    },
+  },
+  {
+    name: "song of rage",
+    type: "gift",
+    template: ["werewolf"],
+    values: [1],
+    check: {
+      $and: [
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 2 },
+            error:
+              "You must have at least 2 points of renown to take this gift.",
+          },
+        },
+        { $eq: { auspice: "galliard" }, error: "You must be a galliard." },
+      ],
+    },
+  },
+  {
+    name: "song of serenity",
+    type: "gift",
+    template: ["werewolf"],
+    values: [1],
+    check: {
+      $and: [
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 2 },
+            error:
+              "You must have at least 2 points of renown to take this gift.",
+          },
+        },
+        { $eq: { auspice: "galliard" }, error: "You must be a galliard." },
+      ],
+    },
+  },
+  {
+    name: "call the ridden",
+    type: "gift",
+    template: ["werewolf"],
+    values: [1],
+    check: {
+      $and: [
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 5 },
+            error:
+              "You must have at least 5 points of renown to take this gift.",
+          },
+        },
+        { $eq: { auspice: "galliard" }, error: "You must be a galliard." },
+      ],
+    },
+  },
+  {
+    name: "eyes of the cobra",
+    type: "gift",
+    template: ["werewolf"],
+    values: [1],
+    check: {
+      $and: [
+        {
+          $gte: {
+            stats: ["glory", "honor", "wisdom"],
+            condition: { $gte: 5 },
+            error:
+              "You must have at least 5 points of renown to take this gift.",
+          },
+        },
+        { $eq: { auspice: "galliard" }, error: "You must be a galliard." },
+      ],
+    },
+  },
 ];
