@@ -16,6 +16,8 @@ import { other } from "./data/other.ts";
 import * as dpath from "https://deno.land/std@0.208.0/path/mod.ts";
 import { join } from "https://deno.land/std@0.210.0/path/mod.ts";
 
+let __dirname = "";
+
 if (import.meta.url.startsWith("file://")) {
   __dirname = dpath.dirname(dpath.fromFileUrl(import.meta.url));
 } else {
@@ -92,3 +94,5 @@ export interface CalcValue {
   $div?: (string | number)[];
   [key: string]: any;
 }
+
+export { __dirname };
