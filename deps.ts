@@ -16,7 +16,7 @@ import { join } from "https://deno.land/std@0.210.0/path/mod.ts";
 if (import.meta.url.startsWith("file://")) {
   __dirname = dpath.dirname(dpath.fromFileUrl(import.meta.url));
 } else {
-  __dirname = join(Deno.cwd());
+  __dirname = "./";
 }
 export const __data = join(__dirname, "..", "data");
 export { join };
