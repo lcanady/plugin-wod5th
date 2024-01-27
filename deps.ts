@@ -21,9 +21,9 @@ let __dirname = "";
 if (import.meta.url.startsWith("file://")) {
   __dirname = dpath.dirname(dpath.fromFileUrl(import.meta.url));
 } else {
-  __dirname = "./src";
+  __dirname = Deno.cwd();
 }
-export const __data = join(__dirname, "../", "data");
+export const __data = join(__dirname, "./data");
 export { join };
 export const allStats = [
   ...bio,
