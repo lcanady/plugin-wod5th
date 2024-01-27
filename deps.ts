@@ -1,6 +1,9 @@
-export * from "../ursamu/mod.ts";
+export * from "https://raw.githubusercontent.com/UrsaMU/ursamu/main/mod.ts";
 
-import { Condition, Obj } from "../ursamu/mod.ts";
+import {
+  Condition,
+  Obj,
+} from "https://raw.githubusercontent.com/UrsaMU/ursamu/main/mod.ts";
 
 import { attributes } from "./data/attributes.ts";
 import { backgrounds } from "./data/backgrounds.ts";
