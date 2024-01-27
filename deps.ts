@@ -1,9 +1,6 @@
-export * from "https://raw.githubusercontent.com/UrsaMU/ursamu/main/mod.ts";
+export * from "../ursamu/mod.ts";
 
-import {
-  Condition,
-  Obj,
-} from "https://raw.githubusercontent.com/UrsaMU/ursamu/main/mod.ts";
+import { Condition, Obj } from "../ursamu/mod.ts";
 
 import { attributes } from "./data/attributes.ts";
 import { backgrounds } from "./data/backgrounds.ts";
@@ -16,7 +13,11 @@ import { other } from "./data/other.ts";
 import * as dpath from "https://deno.land/std@0.208.0/path/mod.ts";
 import { join } from "https://deno.land/std@0.210.0/path/mod.ts";
 
-export const __dirname = dpath.dirname(dpath.fromFileUrl(import.meta.url));
+if (import.meta.url.startsWith("file://")) {
+  __dirname = dpath.dirname(dpath.fromFileUrl(import.meta.url));
+} else {
+  __dirname = join(Deno.cwd(), "src");
+}
 export const __data = join(__dirname, "..", "data");
 export { join };
 export const allStats = [
