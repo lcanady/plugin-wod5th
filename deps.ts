@@ -23,7 +23,7 @@ if (import.meta.url.startsWith("file://")) {
 } else {
   __dirname = Deno.cwd();
 }
-export const __data = join(__dirname, "./data");
+export const __data = join(__dirname, "../data");
 export { join };
 export const allStats = [
   ...bio,
