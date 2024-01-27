@@ -21,7 +21,7 @@ let __dirname = "";
 if (import.meta.url.startsWith("file://")) {
   __dirname = dpath.dirname(dpath.fromFileUrl(import.meta.url));
 } else {
-  __dirname = "./";
+  __dirname = "./src";
 }
 export const __data = join(__dirname, "../", "data");
 export { join };
