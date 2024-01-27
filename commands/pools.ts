@@ -203,6 +203,9 @@ export default () => {
       const aggravated = +targ.data.damage[type].aggravated;
       const maxHealth = +(await getStat(targ, "stamina")) + 3;
 
+      // apply the damage to the target.  If it's superficial, then apply superficial.  If it's aggravated, then apply aggravated.
+      // if the damage is larger than the damage type to be applied, then end the command and tell the enactor 'Invalid value.  You cannot damage more.'
+
       // emit a message to the targets location.  Damage> <target> has taken <value> <type> damage(<damageType>). enactor or not.
       send(
         [`#${targ.location}`],

@@ -1,5 +1,5 @@
-import { allStats, dbojs, IDBOBJ, IMStatEntry, Obj } from "../deps.ts";
-import { checkCondition } from "./checkCondition.ts";
+import { allStats, checkCondition, IMStatEntry, Obj } from "../deps.ts";
+
 import { parseCalcValue } from "./parseCalcValue.ts";
 import { getStat } from "./getStats.ts";
 

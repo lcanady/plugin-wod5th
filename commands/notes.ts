@@ -1,4 +1,5 @@
-import { capString } from "../deps.ts";
+import { footer } from "../deps.ts";
+import { capString, divider } from "../deps.ts";
 import {
   addCmd,
   canEdit,
@@ -33,8 +34,15 @@ export default () => {
       if (!en) return;
 
       if (args[0] && !categories.includes(args[0].toLowerCase())) {
-        return send([ctx.socket.id], "%chGame>%cn Invalid category.");
+        return send(
+          [ctx.socket.id],
+          `%chGame>%cn Invalid category. Valid categories are: ${
+            categories.join(", ")
+          }.`,
+        );
       }
+
+      en.data.notes ||= [];
 
       const note = en.data.notes.find((n: any) =>
         n.title === args[1].toLowerCase()
@@ -45,12 +53,12 @@ export default () => {
             n.title !== args[1].toLowerCase()
           );
         } else {
-          note.text = args[1];
+          note.text = args[2].trim();
         }
       } else {
         en.data.notes.push({
           title: args[1].toLowerCase(),
-          text: args[3],
+          text: args[2].trim(),
           date: Date.now(),
           category: args[0] || "general",
           hidden: false,
@@ -67,6 +75,62 @@ export default () => {
           args[2] ? "saved" : "removed"
         }.`,
       );
+    },
+  });
+
+  addCmd({
+    name: "note/read",
+    // note [<player>\]<title>|<id>
+    pattern: /^[@\+]?note\/view\s+(.*)/i,
+    lock: "connected",
+    exec: async (ctx, args) => {
+      const en = await Obj.get(ctx.socket.cid);
+      if (!en) return;
+
+      let [tar, title] = args[0].split("/");
+      if (!title) {
+        title = tar;
+        tar = "me";
+      }
+
+      const targ = await target(en.dbobj, tar);
+      if (!targ) return send([ctx.socket.id], "%chGame>%cn Invalid target.");
+
+      targ.data ||= {};
+      targ.data.notes ||= [];
+
+      // make sure they have permission to read the note.   If they can edit
+      // they can read all notes.  Otherwise, they can only read approved
+      // public notes.
+
+      // if the title is given, match the title.  if the #id is given, match
+      // the id  is a number that can be prefixed with a #.  If no # is given,
+      // then the number is assumed to be an id.
+
+      let note: INote | undefined;
+      if (title.startsWith("#") || !isNaN(+title)) {
+        const idx = title.startsWith("#") ? +title.slice(1) : +title;
+        if (idx) {
+          note = targ.data.notes[idx - 1];
+        }
+      } else {
+        note = targ.data.notes.find((n: any) => n.title === title);
+      }
+
+      // if they can read the note, show it.  Otherwise, show an error.
+      if (note) {
+        if (canEdit(en.dbobj, targ) || note.approved && !note.hidden) {
+          let output = header("NOTE for: " + moniker(targ)) + "\n";
+          output += divider(capString(note.title)) + "\n";
+          output += note.text + "\n";
+          output += footer();
+          await send([ctx.socket.id], output);
+        } else {
+          await send([ctx.socket.id], "%chGame>%cn Permission denied.");
+        }
+      } else {
+        await send([ctx.socket.id], "%chGame>%cn Note not found.");
+      }
     },
   });
 
@@ -99,6 +163,15 @@ export default () => {
         return send([ctx.socket.id], "%chGame>%cn No notes found.");
       }
 
+      // get the notes that the user can see.  If they can edit the object
+      // they can see all notes.  Otherwise, they can only see approved
+      // public notes.
+
+      const notes = targ.data.notes.filter((n: any) => {
+        if (canEdit(en.dbobj, targ)) return true;
+        return n.approved && !n.hidden;
+      });
+
       // =========================[ NOTES for Player ]==========================
       // --------------------------[ General Notes ]----------------------------
       // * 1. This is a Note title.
@@ -113,18 +186,34 @@ export default () => {
       let output = header("NOTES for: " + moniker(targ)) + "\n";
 
       const cats = new Set<string>();
-      for (const note of targ.data.notes) {
+      for (const note of notes as INote[]) {
         cats.add(note.category);
       }
 
       for (const cat of cats) {
-        output += header(capString(cat) + " Notes") + "\n";
-        for (const note of targ.data.notes) {
+        output += divider(capString(cat) + " Notes") + "\n";
+        for (const note of notes) {
           if (note.category === cat) {
-            output += `* ${note.title}\n`;
+            // get the index of the note.
+            const idx = targ.data.notes.indexOf(note);
+            output += note.approved ? " * " : "   ";
+            output += `${("#" + (idx + 1)).padStart(3)}. %cc${
+              capString(note.title)
+            }%cn\n`;
+
+            // show the first 78 cgars of the note, ending with an ellipsis if it's longer.
+            output += `        ${note.text?.substr(0, 67)}${
+              note.text?.length > 67 ? "..." : ""
+            }\n`;
           }
         }
       }
+
+      output += footer();
+      output += "\nTo view a note, type: 'note [<player>\]<title>'.\n";
+      output += "* = Approved note.\n";
+
+      await send([ctx.socket.id], output);
     },
   });
 };

@@ -1,5 +1,9 @@
 export * from "../ursamu/mod.ts";
-import { IDBOBJ, Obj } from "../ursamu/mod.ts";
+
+import {
+  Condition,
+  Obj,
+} from "https://raw.githubusercontent.com/UrsaMU/ursamu/main/mod.ts";
 
 import { attributes } from "./data/attributes.ts";
 import { backgrounds } from "./data/backgrounds.ts";
@@ -68,42 +72,13 @@ export interface INote {
   title: string;
   text: string;
   date: number;
+  category: string;
   hidden: boolean;
   locked: boolean;
   approvedBy?: string;
   approved: boolean;
   approvedOn?: number;
 }
-
-interface ConditionPart {
-  error?: string; // Optional error message
-}
-
-interface StatComparison extends ConditionPart {
-  stats: string[];
-  value: number;
-}
-
-interface BaseCondition extends ConditionPart {
-  [key: string]: any;
-  $lt?: Record<string, any> | StatComparison;
-  $lte?: Record<string, any> | StatComparison;
-  $gt?: Record<string, any> | StatComparison;
-  $gte?: Record<string, any> | StatComparison;
-  $ne?: Record<string, any> | StatComparison;
-  $eq?: Record<string, any> | StatComparison;
-  $in?: Record<string, any[]>;
-  $nin?: Record<string, any[]>;
-  $flags?: string;
-  $regex?: Record<string, string>;
-}
-
-interface ComplexCondition extends BaseCondition {
-  $and?: Condition[];
-  $or?: Condition[];
-  $not?: Condition;
-}
-export type Condition = ComplexCondition | BaseCondition;
 
 export interface CalcValue {
   $set?: { [key: string]: number | CalcValue };
