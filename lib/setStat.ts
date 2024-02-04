@@ -87,7 +87,7 @@ export const setStat = async (
 
       if (
         specObj && specObj.check && typeof (specObj.check) === "function" &&
-        !specObj.check(character)
+        !checkCondition(specObj.check, character)
       ) {
         throw new Error(specObj.error || "Permission denied.");
       }
@@ -131,7 +131,7 @@ export const setStat = async (
   // if there's a check on the stat, see if it passes.
   if (
     fullStat.check && typeof (fullStat.check) === "function" &&
-    !fullStat.check(character)
+    !checkCondition(fullStat.check, character)
   ) {
     throw new Error(fullStat.error || "Permission denied.");
   }
