@@ -1,4 +1,4 @@
-import { __dirname, join, loadTxtDir, plugins } from "./deps.ts";
+import { join, loadTxtDir, plugins } from "./deps.ts";
 
 export default () => {
   console.log("Loading...");
